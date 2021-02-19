@@ -61,25 +61,15 @@
 			<artifactId>jrobin</artifactId>
 			<version>1.5.9</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
     			<groupId>junit</groupId>
    			<artifactId>junit</artifactId>
-    			<version>4.0</version>
-    			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.vmlens</groupId>
 			<artifactId>concurrent-junit</artifactId>
 			<version>1.0.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.code.tempus-fugit/tempus-fugit -->
-		<dependency>
-			<groupId>com.google.code.tempus-fugit</groupId>
-			<artifactId>tempus-fugit</artifactId>
-			<version>1.1</version>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
