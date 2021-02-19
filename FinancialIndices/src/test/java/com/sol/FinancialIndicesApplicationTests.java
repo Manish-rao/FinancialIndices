@@ -15,8 +15,5 @@ class FinancialIndicesApplicationTests {
 	@LocalServerPort
 	int randomServerPort;
 	
-	@Test
-	void contextLoads() {
-	}
 
 }
