@@ -1,73 +1,51 @@
-package com.sol.service;
+package com.sol.exception;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Service;
 
-import com.sol.dto.StatisticsDTO;
-import com.sol.dto.TickDTO;
-import com.sol.exception.NoRecordsFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 
-@Service
-public class TickService {
+import com.fasterxml.jackson.core.JsonParseException;
 
-	Map<String, List<TickDTO>> tickMap = new ConcurrentHashMap<>();
-	private static final int SIXTY_SECONDS = 60 * 1000;
-	long currentTime = System.currentTimeMillis() - SIXTY_SECONDS;
-
-	Log logger = LogFactory.getLog(TickService.class);
-
-	public void create(TickDTO tickDto) {
-		logger.info(tickDto.getInstrument() + "Price:" + tickDto.getPrice() + " Time : " + tickDto.getTimestamp());
-		tickMap.computeIfAbsent(tickDto.getInstrument(), k -> new CopyOnWriteArrayList<TickDTO>()).add(tickDto);
-	}
-
-	public StatisticsDTO getAllStatistics() {
-		long start = System.currentTimeMillis();
-		if (tickMap.isEmpty())
-			throw new NoRecordsFoundException("No records were found");
-		// Prepare flatennedList by combining List of List into a single list and then
-		// filter records from last 60 seconds
-		List<TickDTO> flattenedList = tickMap.values()
-				.stream().flatMap(List::stream).collect(Collectors.toList())
-				.stream().filter(t -> t.getTimestamp() > currentTime).collect(Collectors.toList());
-
-		StatisticsDTO stats = new StatisticsDTO(); 
-		stats = stats.calculateStatistics(flattenedList);
-		logger.info("Stats: "+stats.getAvg()+" Count:"+stats.getCount()+" Max:"+stats.getMax()+" Min:"+stats.getMin());
-		logger.info("Time taken in MS: "+(System.currentTimeMillis()-start));
-		return stats;
-	}
-
-	public StatisticsDTO getStatisticsForIdentifier(String identifier) {
-		long start = System.currentTimeMillis();
-		if (tickMap.isEmpty() || !tickMap.containsKey(identifier))
-			throw new NoRecordsFoundException("No records were found");
+@ControllerAdvice
+public class MyExceptionHandler {
 		
-		List<TickDTO> flattenedList = tickMap.get(identifier)
-				.stream().filter(t -> t.getTimestamp() > currentTime).collect(Collectors.toList());
-		StatisticsDTO stats = new StatisticsDTO();
-		stats = stats.calculateStatistics(flattenedList);
-		logger.info("Stats for Single Instr: "+stats.getAvg()+" Count:"+stats.getCount()+" Max:"+stats.getMax()+" Min:"+stats.getMin());
-		logger.info("Time taken in ms for Single Instr: "+(System.currentTimeMillis()-start));
-		return stats;
-	}
-	
-	public void clearOldData() {
-		logger.info("Clearing old Data###");
-		long sixtySeconds = System.currentTimeMillis() - SIXTY_SECONDS;
-		Iterator<List<TickDTO>> iterator = tickMap.values().iterator();
-		while(iterator.hasNext()) {
-			iterator.next().removeIf(x-> sixtySeconds > x.getTimestamp());
-		}
-		tickMap.values().removeIf(x-> x == null || x.isEmpty()) ;
-	   }
+	    
+	    @ExceptionHandler(JsonParseException.class)
+	    public final ResponseEntity<ExceptionMessage> JsonParserException(JsonParseException ex, WebRequest request) {
+	        ExceptionMessage error = new ExceptionMessage("Error parsing JSON", ex.getMessage());
+	        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	    }
+	    
 
+	    @ExceptionHandler(ConstraintViolationException.class)
+	    public final ResponseEntity<ExceptionMessage> ConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
+	        ExceptionMessage error = new ExceptionMessage("Please check input values", ex.getMessage());
+	        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	    }
+	    
+	    @ExceptionHandler(MethodArgumentNotValidException.class)
+	    @ResponseStatus(HttpStatus.BAD_REQUEST)
+	    @ResponseBody
+	    public Map<String,String> handleValidationFailure(MethodArgumentNotValidException e) {
+
+	        Map<String, String> errors = new HashMap<>();
+
+	        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+	            errors.put(fieldError.getObjectName() + fieldError.getField(),
+	                       fieldError.getDefaultMessage());
+	        }
+
+	        return errors;
+	    }
 }
