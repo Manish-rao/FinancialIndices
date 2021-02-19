@@ -5,8 +5,6 @@ import java.sql.SQLException;
 
 import javax.validation.Valid;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,6 @@ public class TicksController {
 	private static final int SIXTY_SECONDS = 60 * 1000;
 	@Autowired
 	private TickService tickService;
-	Log logger = LogFactory.getLog(TickService.class);
 	
 
 	@PostMapping("/ticks")
