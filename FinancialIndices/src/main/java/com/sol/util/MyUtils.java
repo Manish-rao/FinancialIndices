@@ -5,6 +5,9 @@ import org.springframework.http.HttpHeaders;
 
 public class MyUtils {
 
+	private MyUtils(){
+		
+	}
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
@@ -16,13 +19,11 @@ public class MyUtils {
 	
 	public static <T> HttpEntity<T> getEnityWithHttpHeader(T requestObject) {
 		HttpHeaders headers = new HttpHeaders();
-		HttpEntity<T> request = new HttpEntity<>(requestObject, headers);
-		return request;
+		return new HttpEntity<>(requestObject, headers);
 	}
 	
 	public static HttpEntity<?> getHttpHeader() {
 		HttpHeaders headers = new HttpHeaders();
-		HttpEntity<?> request = new HttpEntity<>(headers);
-		return request;
+		return new HttpEntity<>(headers);
 	}
 }
