@@ -1,6 +1,5 @@
 package com.sol.service;
 
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +18,13 @@ import com.sol.exception.NoRecordsFoundException;
 @Service
 public class TickService {
 
-	// private final TickRepository tickRepository;
 	Map<String, List<TickDTO>> tickMap = new ConcurrentHashMap<>();
 	private static final int SIXTY_SECONDS = 60 * 1000;
 	long currentTime = System.currentTimeMillis() - SIXTY_SECONDS;
 
 	Log logger = LogFactory.getLog(TickService.class);
 
-	public void create(TickDTO tickDto) throws SQLException {
+	public void create(TickDTO tickDto) {
 		logger.info(tickDto.getInstrument() + "Price:" + tickDto.getPrice() + " Time : " + tickDto.getTimestamp());
 		tickMap.computeIfAbsent(tickDto.getInstrument(), k -> new CopyOnWriteArrayList<TickDTO>()).add(tickDto);
 	}
