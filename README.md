@@ -7,7 +7,7 @@
 
 # Build:
 Command: **mvn -DskipTests clean install**
-`
+```
 [INFO] Scanning for projects...
 [INFO]
 [INFO] ----------------------< com.sol:FinancialIndices >----------------------
@@ -69,11 +69,12 @@ Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons
 [INFO] Finished at: 2021-02-19T15:34:51+05:30
 [INFO] ------------------------------------------------------------------------
 
-Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.jar`
+Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.jar
+```
 
 # Starting the server:    
 **java -jar FinancialIndices-0.0.1-SNAPSHOT.jar**
-`
+```
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -100,4 +101,5 @@ Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.
 2021-02-19 15:51:37.117  INFO 40176 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
 2021-02-19 15:51:37.517  INFO 40176 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
 2021-02-19 15:51:37.693  INFO 40176 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2021-02-19 15:51:37.728  INFO 40176 --- [           main] com.sol.FinancialIndicesApplication      : Started FinancialIndicesApplication in 8.062 seconds (JVM running for 9.223)`
+2021-02-19 15:51:37.728  INFO 40176 --- [           main] com.sol.FinancialIndicesApplication      : Started FinancialIndicesApplication in 8.062 seconds (JVM running for 9.223)
+```
