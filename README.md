@@ -1,11 +1,11 @@
 # FinancialIndices
 
-Requirements:
+#Requirements:
 •	Java 8 or above
 •	Git
 •	Maven
 
-Build:
+#Build:
 Command: mvn -DskipTests clean install
 
 [INFO] Scanning for projects...
@@ -71,7 +71,7 @@ Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons
 
 Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.jar
 
-Starting the server:    java -jar FinancialIndices-0.0.1-SNAPSHOT.jar
+#Starting the server:    java -jar FinancialIndices-0.0.1-SNAPSHOT.jar
 
 
   .   ____          _            __ _ _
