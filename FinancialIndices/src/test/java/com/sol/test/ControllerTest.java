@@ -164,4 +164,24 @@ public class ControllerTest {
 			Assert.assertTrue(isStatus200Or204);
 		}
 	}
+	
+	@Test
+	public void checkStatisticsWithOneKey() {
+		TickService tickService = new TickService();
+		tickService.clearOldData();
+		for(int i=0;i<12000;i++) {
+		this.restTemplate.exchange(
+				UriComponentsBuilder.fromUriString("/ticks").buildAndExpand(new HashMap<>()).toUri(), HttpMethod.POST,
+				MyUtils.getEnityWithHttpHeader(new TickDTO(instArr[1],
+						Math.random() * 100, System.currentTimeMillis())), Object.class);
+		}
+		System.out.println("CALLING single statics now********");
+		String uriString = "/statistics/"+instArr[1];
+		ResponseEntity<StatisticsDTO> exchange = this.restTemplate.exchange(
+				UriComponentsBuilder.fromUriString(uriString).buildAndExpand(new HashMap<>()).toUri()
+				, HttpMethod.GET
+				, MyUtils.getHttpHeader(), StatisticsDTO.class);
+		boolean isStatus200Or204 = exchange.getStatusCodeValue()==200 || exchange.getStatusCodeValue()==204;
+		Assert.assertTrue(isStatus200Or204);
+	}
 }
