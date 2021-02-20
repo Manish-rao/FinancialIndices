@@ -1,9 +1,9 @@
 # FinancialIndices
 
 # Requirements:
-•	Java 8 or above
-•	Git
-•	Maven
+*	Java 8 or above
+*	Git
+*	Maven
 
 # Build:
 Command: **mvn -DskipTests clean install**
@@ -103,3 +103,17 @@ Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.
 2021-02-19 15:51:37.693  INFO 40176 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 2021-02-19 15:51:37.728  INFO 40176 --- [           main] com.sol.FinancialIndicesApplication      : Started FinancialIndicesApplication in 8.062 seconds (JVM running for 9.223)
 ```
+# Assumptions:
+* Some basic validations still need to be in place such as not null for instrument identifier, non negative for price.
+* Solution implemented will be in memory, no in memory database such as H2 can be used.
+* Older ticks are no longer useful, so a Cron job schedules a memory cleanup every 5 minutes to optimize performance
+* No limit on number of identifiers, currently the stock identifier is used as key to a ConcurrentHashmap. Performance for getStatistics for 24000 unique identifiers is: 11ms and getStatistics for single key with 12000 records is:8 ms 
+* No service calls to other APIS at the moment.
+
+# Improvements:
+* Would love to add some stress tests and include a more detailed testing.
+* Add some endpoints and add some health related data.
+* Use a better logging strategy, currently only TickService is logged using a logger.
+
+# Experience with the challenge:
+Loved working on this challenge. I thoroughly enjoyed implementing my solution and would love to continue working on this code in my spare time. 
