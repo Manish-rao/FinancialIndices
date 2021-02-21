@@ -6,7 +6,7 @@
 *	Maven
 
 # Build:
-Command: **mvn -DskipTests clean install**
+Command: Navigate to folder containing the pom.xml and run **mvn -DskipTests clean install**
 ```
 [INFO] Scanning for projects...
 [INFO]
@@ -73,7 +73,7 @@ Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.
 ```
 
 # Starting the server:    
-**java -jar FinancialIndices-0.0.1-SNAPSHOT.jar**
+Navigate to target folder after running previous command and run: **java -jar FinancialIndices-0.0.1-SNAPSHOT.jar**
 ```
 
   .   ____          _            __ _ _
@@ -117,3 +117,5 @@ Dependency is in the following location: target\FinancialIndices-0.0.1-SNAPSHOT.
 
 # Experience with the challenge:
 Loved working on this challenge. I thoroughly enjoyed implementing my solution and would love to continue working on this code in my spare time. 
+
+** Note: while using mvn command make sure to skip tests, if you need to run the tests, use Spring STS and use JUNIT4 **
