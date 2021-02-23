@@ -20,7 +20,7 @@ public class TickService {
 
 	Map<String, List<TickDTO>> tickMap = new ConcurrentHashMap<>();
 	private static final int SIXTY_SECONDS = 60 * 1000;
-	long currentTime = System.currentTimeMillis() - SIXTY_SECONDS;
+	
 
 	Log logger = LogFactory.getLog(TickService.class);
 
@@ -30,6 +30,7 @@ public class TickService {
 	}
 
 	public StatisticsDTO getAllStatistics() {
+		long currentTime = System.currentTimeMillis() - SIXTY_SECONDS;
 		long start = System.currentTimeMillis();
 		if (tickMap.isEmpty())
 			throw new NoRecordsFoundException("No records were found");
@@ -47,6 +48,7 @@ public class TickService {
 	}
 
 	public StatisticsDTO getStatisticsForIdentifier(String identifier) {
+		long currentTime = System.currentTimeMillis() - SIXTY_SECONDS;
 		long start = System.currentTimeMillis();
 		if (tickMap.isEmpty() || !tickMap.containsKey(identifier))
 			throw new NoRecordsFoundException("No records were found");
